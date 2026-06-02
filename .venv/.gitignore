@@ -1,0 +1,22 @@
+# Virstual enviornment
+.venv/
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Environment variables
+.env
+.env.local
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
