@@ -1,12 +1,13 @@
 # bond
 python and sql summer 2026 project
 
-#DEPENDENCIES
+# DEPENDENCIES
 
-#pip - pyhton package manager
-- pytnon intall pip
+# pip - pyhton package manager
+- python intall pip
+- pip install pipenv
 
-#django - python framework 
-- python install django 
+# django - python framework 
+- pipenv install django 
 
   
