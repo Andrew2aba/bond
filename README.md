@@ -6,6 +6,9 @@ python summer 2026 project
 - python intall pip
 - pip install pipenv
 
+### start server 
+- pipenv run python manage.py runserver
+- 
 ## django - python framework 
 - pipenv install django 
 
