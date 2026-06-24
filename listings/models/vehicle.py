@@ -9,8 +9,16 @@ class Vehicle(models.Model):
     description = models.TextField(blank=True) # Optional field for additional details
     Photo = models.ImageField(upload_to='vehicle_photos/', blank=True, null=True) # Optional field for vehicle photo
     engine = models.CharField(max_length=255, blank=True) # Optional field for engine details
-    
-    
-
+   
     def __str__(self):
         return f"{self.year} {self.make} {self.model}"
+
+class Photo(models.Model):
+    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE, related_name='photos')
+    image = models.ImageField(upload_to='vehicle_photos/')
+    is_primary = models.BooleanField(default=False)
+    order = models.PositiveIntegerField(default=0)
+    
+
+    class Meta:
+        ordering = ['order']
