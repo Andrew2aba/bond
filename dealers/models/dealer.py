@@ -1,9 +1,10 @@
 from django.conf import settings
 from django.db import models
+from typing import ClassVar
 
 
 class Dealer(models.Model):
-    STATUS_CHOICES = [
+    STATUS_CHOICES: ClassVar[list] = [
         ('available', 'Available'),
         ('pending', 'Pending'),
         ('approved', 'Approved'),
