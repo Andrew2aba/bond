@@ -1,2 +1,2 @@
-from .dealer import Dealer
-from .location import DealerLocation
+from .dealer import Dealer as Dealer
+from .location import DealerLocation as DealerLocation

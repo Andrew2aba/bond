@@ -1,4 +1,7 @@
 from django.db import models
+from typing import ClassVar
+
+
 
 
 class listing(models.Model):
@@ -8,18 +11,14 @@ class listing(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     sold = models.BooleanField(default=False)
     milage = models.PositiveIntegerField()
-    
-    DEAL_CHOICES = [
+    DEAL_STATUS: ClassVar[list] = [
         ('good', 'Good'),
         ('average', 'Average'),
         ('bad', 'Bad'),
     ]
+    deal = models.CharField(max_length=10, choices=DEAL_STATUS)
     
-    deal = models.CharField(
-        max_length=10,
-        choices=DEAL_CHOICES,
-        default='average'
-    )
+
 
     
 

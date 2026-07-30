@@ -1,2 +1,2 @@
-from .vehicle import Vehicle
-from .listing import listing
+from .listing import listing as listing
+from .vehicle import Vehicle as Vehicle

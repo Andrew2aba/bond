@@ -1,1 +1,1 @@
-from .reviews import Review
+from .reviews import Review as Review

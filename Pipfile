@@ -5,8 +5,11 @@ name = "pypi"
 
 [packages]
 django = "*"
+django-cors-headers = "*"
+pillow = "*"
 
 [dev-packages]
+ruff = "*"
 
 [requires]
 python_version = "3.14"
