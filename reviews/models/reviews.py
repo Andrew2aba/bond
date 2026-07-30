@@ -1,6 +1,6 @@
-from django.db import models
 from django.conf import settings
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.db import models
+
 
 class Review(models.Model):
     listing = models.ForeignKey(
@@ -8,7 +8,8 @@ class Review(models.Model):
         on_delete=models.CASCADE,
         related_name='reviews'
     )
-    dealer = models.ForeignKey('dealers.Dealer', on_delete=models.CASCADE, related_name='DEALER_reviews')
+    dealer = models.ForeignKey('dealers.Dealer', on_delete=models.CASCADE, 
+                               related_name='DEALER_reviews')
     reviewer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     rating = models.PositiveIntegerField()
     body = models.TextField()

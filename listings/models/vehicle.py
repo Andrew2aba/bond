@@ -1,6 +1,4 @@
 from django.db import models
-from django.conf import settings
-
 
 
 class bodyType(models.TextChoices):
@@ -21,11 +19,11 @@ class Vehicle(models.Model):
     make = models.CharField(max_length=100)
     model = models.CharField(max_length=100)
     year = models.PositiveIntegerField()
-    color = models.CharField(max_length=50, blank=True) # Optional field for vehicle color
+    color = models.CharField(max_length=50)
     description = models.TextField(blank=True) # Optional field for additional details
     Photo = models.ImageField(upload_to='vehicle_photos/', blank=True, null=True) 
     engine = models.CharField(max_length=255, choices=transmissionType.choices) 
-    body_type = models.CharField(max_length=100, choices=bodyType.choices) # Optional field for body type
+    body_type = models.CharField(max_length=100, choices=bodyType.choices) 
     
     
 class Photo(models.Model):
@@ -39,7 +37,3 @@ class Photo(models.Model):
         return f"{self.year} {self.make} {self.model}"
 
     
-    
-
-    class Meta:
-        ordering = ['order']

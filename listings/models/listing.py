@@ -1,6 +1,13 @@
 from django.db import models
 
 
+class dealStatus(models.Choices):
+    GOOD = 'good', 'Good'
+    AVERAGE = 'average', 'Average'
+    BAD = 'bad', 'Bad'
+
+
+
 class listing(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
@@ -8,18 +15,9 @@ class listing(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     sold = models.BooleanField(default=False)
     milage = models.PositiveIntegerField()
+    deal = models.CharField(max_length=10, choices=dealStatus.choices)
     
-    DEAL_CHOICES = [
-        ('good', 'Good'),
-        ('average', 'Average'),
-        ('bad', 'Bad'),
-    ]
-    
-    deal = models.CharField(
-        max_length=10,
-        choices=DEAL_CHOICES,
-        default='average'
-    )
+
 
     
 

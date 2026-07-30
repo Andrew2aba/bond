@@ -1,10 +1,16 @@
-from django.db import models
 from django.conf import settings
+from django.db import models
+
+
+class dealStatus(models.Choices):
+    AVAILABLE = 'available', 'Available'
+    PENDING = 'pending', 'Pending'
+    APPROVED = 'approved', 'Approved'
+    REJECTED = 'rejected', 'Rejected'
+    CLOSED = 'closed', 'Closed'
 
 class Dealer(models.Model):
-    status = [('available', 'Available'),('pending', 'Pending'), ('approved', 'Approved'), 
-              ('rejected', 'Rejected'), ('closed', 'Closed')]
-    
+    status = models.CharField(max_length=20, choices=dealStatus.choices, default=dealStatus.PENDING)
     Buisness_Name = models.CharField(max_length=255)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     wesbsite = models.URLField(blank=True, null=True)
