@@ -23,7 +23,7 @@ class Vehicle(models.Model):
     description = models.TextField(blank=True) # Optional field for additional details
     Photo = models.ImageField(upload_to='vehicle_photos/', blank=True, null=True) 
     engine = models.CharField(max_length=255, choices=transmissionType.choices) 
-    body_type = models.CharField(max_length=100, choices=bodyType.choices) 
+    body_type = models.CharField(max_length=100, choices=bodyType.choices, null=True, blank=True) 
     
     
 class Photo(models.Model):
