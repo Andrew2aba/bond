@@ -1,0 +1,78 @@
+# ---------------------------------------------------------------------------
+#   1. Checks out your code
+#   2. Starts a real PostgreSQL database (so tests hit a DB like production does)
+#   3. Installs Python + your Pipfile dependencies
+#   4. Lints the code (style check) with Ruff
+#   5. Verifies migrations are in sync
+#   6. Runs your test suite
+# ---------------------------------------------------------------------------
+
+    name: CI  
+
+    on:
+      push:
+        branches: [main]        # run when you push to main
+      pull_request:
+        branches: [main]        # run on every PR targeting main
+      # Tip: add your dev branch here too, e.g. [main, develop]
+    
+    # ---- WHAT should run? ------------------------------------------------------
+    jobs:
+      test:
+        name: Lint & Test
+        runs-on: ubuntu-latest   # GitHub gives you a fresh Linux machine
+    
+        # A throwaway PostgreSQL database that only exists during this run.
+        services:
+          postgres:
+            image: postgres:16
+            env:
+              POSTGRES_USER: postgres
+              POSTGRES_PASSWORD: postgres
+              POSTGRES_DB: test_db
+            ports:
+              - 5432:5432
+            # Wait until Postgres is actually ready before running steps.
+            options: >-
+              --health-cmd pg_isready
+              --health-interval 10s
+              --health-timeout 5s
+              --health-retries 5
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
+          SECRET_KEY: dummy-key-for-ci-only-not-a-real-secret
+          DEBUG: "False"
+          DJANGO_SETTINGS_MODULE: myproject.settings
+    
+        steps:
+          # 1. Pull your repository onto the runner
+          - name: Check out code
+            uses: actions/checkout@v4
+    
+          # 2. Install the Python version you develop on
+          - name: Set up Python
+            uses: actions/setup-python@v5
+            with:
+              python-version: "3.12"   # match your local version
+    
+          # 3. Install pipenv (since your project uses a Pipfile)
+          - name: Install pipenv
+            run: pip install pipenv
+    
+          # 4. Install your project dependencies (including dev ones like pytest)
+          - name: Install dependencies
+            run: pipenv install --dev
+    
+          # 5. Lint: catch style issues and obvious mistakes.
+          #    Ruff is a fast, all-in-one linter. If a rule fails, the build fails.
+          - name: Lint with Ruff
+            run: pipenv run ruff check .
+    
+          # 6. Safety check: make sure you didn't forget to create a migration
+          #    after changing a model. Fails if migrations are missing.
+          - name: Check for missing migrations
+            run: pipenv run python manage.py makemigrations --check --dry-run
+    
+          # 7. Run the test suite against the Postgres database above.
+          - name: Run tests
+            run: pipenv run pytest
