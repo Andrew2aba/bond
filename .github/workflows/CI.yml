@@ -1,4 +1,5 @@
-# ---------------------------------------------------------------------------
+
+# What it does on every push / pull request:
 #   1. Checks out your code
 #   2. Starts a real PostgreSQL database (so tests hit a DB like production does)
 #   3. Installs Python + your Pipfile dependencies
@@ -7,8 +8,9 @@
 #   6. Runs your test suite
 # ---------------------------------------------------------------------------
 
-    name: CI  
+    name: CI  # The name shown in the "Actions" tab on GitHub
 
+    # ---- WHEN should this run? -------------------------------------------------
     on:
       push:
         branches: [main]        # run when you push to main
@@ -38,12 +40,16 @@
               --health-interval 10s
               --health-timeout 5s
               --health-retries 5
+    
+        # Environment variables available to every step below.
+        # Your Django settings.py should read these from the environment.
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
           SECRET_KEY: dummy-key-for-ci-only-not-a-real-secret
           DEBUG: "False"
           DJANGO_SETTINGS_MODULE: myproject.settings
     
+        # ---- The actual steps, run top to bottom --------------------------------
         steps:
           # 1. Pull your repository onto the runner
           - name: Check out code
@@ -53,7 +59,7 @@
           - name: Set up Python
             uses: actions/setup-python@v5
             with:
-              python-version: "3.12"   # match your local version
+              python-version: "3.14"   # match your local version and Pipfile
     
           # 3. Install pipenv (since your project uses a Pipfile)
           - name: Install pipenv
@@ -74,5 +80,6 @@
             run: pipenv run python manage.py makemigrations --check --dry-run
     
           # 7. Run the test suite against the Postgres database above.
+          #    Uses Django's built-in test runner.
           - name: Run tests
-            run: pipenv run pytest
+            run: pipenv run python manage.py test
