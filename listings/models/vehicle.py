@@ -36,4 +36,3 @@ class Photo(models.Model):
     def __str__(self):
         return f"{self.year} {self.make} {self.model}"
 
-    
