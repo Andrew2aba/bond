@@ -10,4 +10,5 @@ class User(AbstractUser):
     phone_number = models.CharField(max_length=10, blank=True)
     age = models.PositiveIntegerField(null=True, blank=True)
     birthday = models.DateField(null=True, blank=True)
+    joined = models.DateTimeField(auto_now_add=True)
     
