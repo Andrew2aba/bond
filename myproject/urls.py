@@ -27,6 +27,7 @@ router.register(r'listings', ListingViewSet, basename='listing')
 router.register(r'vehicles', vheicleViewSet, basename='vehicle')
 
 
+
 urlpatterns = router.urls + [
     path('admin/', admin.site.urls),
 ]
