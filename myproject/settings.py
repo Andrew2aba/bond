@@ -153,4 +153,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User' # points to your custom user model
 
-REST_AUTH
