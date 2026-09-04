@@ -29,4 +29,6 @@ router.register(r'users', UserViewSet, basename='user')
 
 
 
-urlpatterns = [*router.urls, path('admin/', admin.site.urls)]
+urlpatterns = [*router.urls, 
+               path('admin/', admin.site.urls),
+               ]
