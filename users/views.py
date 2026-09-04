@@ -1,8 +1,7 @@
-from rest_framework import viewsets, status
+from rest_framework import viewsets
 from .models import User, Profile
 from .serializers import UserSerializer, ProfileSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework.response import Response
 
 
 
