@@ -17,13 +17,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from listings.views import ListingViewSet
-from listings.views import vheicleViewSet
+from listings.views import vehicleViewSet
+from users.views import UserViewSet
 from rest_framework.routers import DefaultRouter
 
 
 router = DefaultRouter()
 router.register(r'listings', ListingViewSet, basename='listing')
-router.register(r'vehicles', vheicleViewSet, basename='vehicle')
+router.register(r'vehicles', vehicleViewSet, basename='vehicle')
+router.register(r'users', UserViewSet, basename='user')
 
 
 
