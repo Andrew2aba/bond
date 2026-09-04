@@ -9,6 +9,7 @@ django-cors-headers = "*"
 pillow = "*"
 djangorestframework-simplejwt = "*"
 django-filter = "*"
+psycopg = {extras = ["binary"], version = "*"}
 
 [dev-packages]
 ruff = "*"
