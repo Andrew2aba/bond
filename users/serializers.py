@@ -3,27 +3,29 @@ from .models import User
 from .models import Profile
 
 class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, style={"input_type": "password"})
+    
+    class Meta:
+        model = User
+        fields = ['id', 'first_name', 'last_name', 'username', 
+                  'email', 'date_joined', 'is_staff']
+        read_only_fields = ['id', 'is_staff', 'date_joined']
+
+class RegisterUserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, style={"input_type": "password"},
+                                     min_length=8)
     confirm_password = serializers.CharField(write_only=True, style={"input_type": "password"})
     
     class Meta:
         model = User
         fields = ['id', 'first_name', 'last_name', 'username', 
                   'email', 'password', 'confirm_password']
-        extra_kwargs = {
-            'password': {'write_only': True, 'required': True},
-            'first_name': {'required': True},
-            'last_name': {'required': True},
-            'email': {'required': True},
-            'username': {'required': True},
-        }
-       
+
     def validate(self, attrs):
         if attrs["password"] != attrs["confirm_password"]:
             raise serializers.ValidationError({"confirm_password": "Passwords do not match."})
         return attrs
 
-    # ovverride create method to handle password confirmation
+    # creates new row after validating the data and removing confirm_password
     def create(self, validated_data):
         validated_data.pop("confirm_password", None)
         return User.objects.create_user(**validated_data)
