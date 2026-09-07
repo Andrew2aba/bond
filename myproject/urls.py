@@ -18,17 +18,24 @@ from django.contrib import admin
 from django.urls import path
 from listings.views import ListingViewSet
 from listings.views import vehicleViewSet
-from users.views import UserViewSet
+from users.views import UserViewSet, LoginView
 from rest_framework.routers import DefaultRouter
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 
 router = DefaultRouter()
 router.register(r'listings', ListingViewSet, basename='listing')
 router.register(r'vehicles', vehicleViewSet, basename='vehicle')
 router.register(r'users', UserViewSet, basename='user')
+router.register(r'login' , LoginView, basename='login')
+
 
 
 
 urlpatterns = [*router.urls, 
                path('admin/', admin.site.urls),
+                # LOGIN ENDPOINT: React sends credentials, returns access & refresh tokens
+               path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+                # REFRESH ENDPOINT: React sends {refresh} -> returns new access token
+               path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
                ]

@@ -10,6 +10,7 @@ pillow = "*"
 djangorestframework-simplejwt = "*"
 django-filter = "*"
 psycopg = {extras = ["binary"], version = "*"}
+python-dotenv = "*"
 
 [dev-packages]
 ruff = "*"

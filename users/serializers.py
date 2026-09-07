@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import User
 from .models import Profile
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class UserSerializer(serializers.ModelSerializer):
     
@@ -29,6 +30,17 @@ class RegisterUserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data.pop("confirm_password", None)
         return User.objects.create_user(**validated_data)
+    
+    def isExistingUser(self, email):
+        """ Check if a user with the given email already exists. """
+        return User.objects.filter(email=email).exists()
+    
+class LoginSerializer(TokenObtainPairSerializer):
+    
+    def validate(self, attrs):
+        data = super().validate(attrs)   # verifies password, returns access + refresh
+        data['user'] = UserSerializer(self.user).data
+        return data
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
