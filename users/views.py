@@ -41,7 +41,23 @@ class UserViewSet(viewsets.ModelViewSet):
 
 # users/views.py
 class LoginView(viewsets.ModelViewSet):
+    queryset = User.objects.all()
     serializer_class = LoginSerializer
+
+    
+    def login(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        
+        if serializer.is_valid():
+            user = serializer.user
+            refresh_token = RefreshToken.for_user(user)
+            return Response({
+                "message": "Login successful.",
+                "access": str(refresh_token.access_token),
+                "refresh": str(refresh_token),
+                "user": UserSerializer(user).data
+            }, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()

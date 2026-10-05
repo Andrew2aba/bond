@@ -37,6 +37,7 @@ class RegisterUserSerializer(serializers.ModelSerializer):
     
 class LoginSerializer(TokenObtainPairSerializer):
     
+    
     def validate(self, attrs):
         data = super().validate(attrs)   # verifies password, returns access + refresh
         data['user'] = UserSerializer(self.user).data

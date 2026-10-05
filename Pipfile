@@ -11,6 +11,10 @@ djangorestframework-simplejwt = "*"
 django-filter = "*"
 psycopg = {extras = ["binary"], version = "*"}
 python-dotenv = "*"
+gunicorn = "*"
+whitenoise = "*"
+psycopg2-binary = "*"
+dj-database-url = "*"
 
 [dev-packages]
 ruff = "*"
